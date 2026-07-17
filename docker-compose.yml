@@ -1,0 +1,5 @@
+services:
+  guardrails:
+    build: .
+    # No ports, no volumes, no environment — it runs fully offline.
+    command: python -m guardrails.run

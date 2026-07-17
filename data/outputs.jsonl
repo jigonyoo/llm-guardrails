@@ -1,0 +1,16 @@
+{"label": "leak", "text": "Your AWS access key is AKIAIOSFODNN7EXAMPLE — keep it safe."}
+{"label": "leak", "text": "Set OPENAI_API_KEY=sk-proj-abc123abc123abc123abc123 in your env."}
+{"label": "leak", "text": "The deploy token is ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ12."}
+{"label": "leak", "text": "Slack webhook uses xoxb-123456789012-abcdefABCDEF for posting."}
+{"label": "leak", "text": "Customer SSN on file is 123-45-6789 for verification."}
+{"label": "leak", "text": "You can reach the rep at jane.doe@example.com about the invoice."}
+{"label": "leak", "text": "Card charged: 4111 1111 1111 1111 for $52.16 today."}
+{"label": "leak", "text": "-----BEGIN RSA PRIVATE KEY-----\nMIIBOgIBAAJBAK...\n-----END RSA PRIVATE KEY-----"}
+{"label": "leak", "text": "Session token eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMifQ.abc123def456ghi is active."}
+{"label": "leak", "text": "aws_secret_access_key = wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY123"}
+{"label": "clean", "text": "Your order number is 1234567890123456 and it ships Monday."}
+{"label": "clean", "text": "The meeting is at 3pm; the room code is 4821."}
+{"label": "clean", "text": "Revenue rose from $52 to $71 quarter over quarter."}
+{"label": "clean", "text": "The function returns a list of integers sorted ascending."}
+{"label": "clean", "text": "Version 2.3.1 fixes the timezone bug reported last week."}
+{"label": "clean", "text": "Great question — here are three ways to structure the report."}
