@@ -1,7 +1,5 @@
 # llm-guardrails
 
-[![CI](https://github.com/jigonyoo/llm-guardrails/actions/workflows/ci.yml/badge.svg)](https://github.com/jigonyoo/llm-guardrails/actions/workflows/ci.yml)
-
 **A drop-in input/output guardrail layer for LLM apps — with the block/leak numbers to prove it works.** Blocks prompt injection and jailbreaks *before* they reach the model or a tool, and redacts leaked secrets/PII *before* they reach the user. Deterministic, offline, zero dependencies.
 
 > `docker compose up` needs **no API key and no network** — the detectors are pure standard library. Every number below is reproduced by the command next to it.

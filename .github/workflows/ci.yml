@@ -15,5 +15,22 @@ jobs:
         run: |
           python scripts/make_data.py
           git diff --exit-code -- data/
-      - name: Protection gate
+      - name: Protection gate — clean fixture must PASS (exit 0)
         run: python -m guardrails.run --gate
+      - name: Protection gate — disabled guard must FAIL (gate must catch it)
+        run: |
+          if python -c "import sys, guardrails.run as r; r.scan_input=lambda *a,**k: type('V',(),{'blocked':False})(); r.scan_output=lambda *a,**k: type('V',(),{'leaked':False})(); sys.exit(r.gate())"; then
+            echo "FAIL: the gate passed a disabled guard (0% block rate) — it must block this"; exit 1
+          else
+            echo "OK: gate correctly exited non-zero for the disabled guard"
+          fi
+      - name: Docker image builds, and the gate behaves the same inside it
+        run: |
+          docker build -t llm-guardrails:ci .
+          echo "--- clean fixture must PASS inside the image (exit 0) ---"
+          docker run --rm --network none llm-guardrails:ci python -m guardrails.run --gate
+          echo "--- disabled guard must be BLOCKED inside the image (non-zero) ---"
+          if docker run --rm --network none llm-guardrails:ci python -c "import sys, guardrails.run as r; r.scan_input=lambda *a,**k: type('V',(),{'blocked':False})(); r.scan_output=lambda *a,**k: type('V',(),{'leaked':False})(); sys.exit(r.gate())"; then
+            echo "FAIL: the gate passed a fixture it must block"; exit 1
+          fi
+          echo "OK: image builds, runs with no network, and both gate outcomes hold"
