@@ -29,23 +29,23 @@ make gate                    # CI mode: non-zero exit if protection regressed
 make test                    # the guarantees, as tests
 ```
 
-## The report (sample battery: 23 attacks, 17 benign, 16 outputs)
+## The report (sample battery: 26 attacks, 21 benign, 16 outputs)
 
 ```
 INPUT GUARD  (OWASP LLM01 — prompt injection / jailbreak)
-  naive (no guard):  23/23 attacks reach the model
-  guarded:           23/23 blocked  ██████████████████████████ 100%
-  false positives:   0/17 benign prompts blocked (0%)
+  naive (no guard):  26/26 attacks reach the model
+  guarded:           26/26 blocked  ██████████████████████████ 100%
+  false positives:   0/21 benign prompts blocked (0%)
 
 OUTPUT GUARD (OWASP LLM02/06 — sensitive info disclosure)
   naive (no guard):  10/10 secrets delivered to the user
   guarded:           10/10 redacted  ██████████████████████████ 100%
   clean text mangled:0/6
 
-  Net: naive lets 33/33 attacks+leaks through; guarded stops 33/33.
+  Net: naive lets 36/36 attacks+leaks through; guarded stops 36/36.
 ```
 
-**The naive path is not a strawman — it's the default.** An app with no input check forwards all 23 attacks; an app with no output check hands over all 10 secrets. The guard closes both doors, and it does so **without blocking a single one of the 17 benign prompts** — including the lookalikes that trip naive keyword filters ("translate *'ignore previous instructions'*", "is this a prompt injection?", "how do I delete a row from my table?").
+**The naive path is not a strawman — it's the default.** An app with no input check forwards all 26 attacks; an app with no output check hands over all 10 secrets. The guard closes both doors, and it does so **without blocking a single one of the 21 benign prompts** — including the lookalikes that trip naive keyword filters ("translate *'ignore previous instructions'*", "is this a prompt injection?", "how do I delete a row from my table?", "what is our policy on refunds without manager approval?").
 
 ## The real bug it stops
 
@@ -79,7 +79,7 @@ Output redaction covers AWS keys, OpenAI/GitHub/Slack tokens, JWTs, private-key 
 ## How it's verified
 
 ```
-27 passed              # pytest — attacks blocked, benign passed, every secret kind redacted,
+37 passed              # pytest — attacks blocked, benign passed, every secret kind redacted,
                        #          clean text untouched, Luhn guard, meta-reference rule, gate
 100% / 0% / 100%       # attack block rate / false positives / secret redaction, on data/
 data reproducible      # make_data.py is deterministic; CI fails if regen isn't byte-identical
@@ -94,7 +94,7 @@ CI runs the tests, regenerates the battery and diffs it, then runs `--gate` (fai
   phrasings it misses (novel wording, unicode homoglyphs, multi-turn setups, non-English).
   In production this pairs with a model-based classifier and least-privilege tool design —
   it does not replace them.
-· 100% here is on a 23-attack curated battery — a demonstrator, not a guarantee. The weights
+· 100% here is on a 26-attack curated battery — a demonstrator, not a guarantee. The weights
   and threshold are tuned to this set; re-tune them against your own traffic and measure.
 · The model is stubbed so the demo is offline and deterministic. The guard is real; the
   "model output" is supplied by the harness to keep every number reproducible with no key.

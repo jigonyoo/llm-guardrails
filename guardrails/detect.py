@@ -40,10 +40,26 @@ def scan_input(text: str, threshold: int = 3) -> InputVerdict:
     prompt injection?") downweights the strongest signals so we do not block
     people who are merely talking about injections.
     """
-    hits: List[Tuple[str, int]] = []
+    found = []
     for name, rx, weight in P.INJECTION_SIGNALS:
-        if rx.search(text):
-            hits.append((name, weight))
+        m = rx.search(text)
+        if m:
+            found.append((name, weight, m.span()))
+
+    # Two signals that matched the *same words* are one piece of evidence, not
+    # two. Without this, a phrase caught by both `ignore_previous` and
+    # `policy_override` scored 6, and the meta-reference discount -- which
+    # subtracts a single signal -- could no longer bring a quoted attack back
+    # under the threshold. Keep the strongest of any overlapping group.
+    kept: List[Tuple[str, int, Tuple[int, int]]] = []
+    for name, weight, span in sorted(found, key=lambda f: -f[1]):
+        if any(span[0] < s2[1] and s2[0] < span[1] for _, _, s2 in kept):
+            continue
+        kept.append((name, weight, span))
+
+    order = {name: i for i, (name, _, _) in enumerate(found)}
+    kept.sort(key=lambda k: order[k[0]])
+    hits: List[Tuple[str, int]] = [(name, weight) for name, weight, _ in kept]
 
     meta = bool(P.META_REFERENCE.search(text))
     score = sum(w for _, w in hits)
@@ -52,7 +68,13 @@ def scan_input(text: str, threshold: int = 3) -> InputVerdict:
         # Reference, not use: knock the score down by the single largest signal.
         # A real attack usually stacks signals, so it still crosses; a lone
         # quoted phrase inside "translate ..." falls back under threshold.
-        score -= max(w for _, w in hits)
+        #
+        # Signals that fire on embedded content are exempt: see
+        # patterns.NOT_DISCOUNTABLE. The user's "Summarize it." is not a
+        # statement about the instruction hidden in the document they pasted.
+        discountable = [w for n, w in hits if n not in P.NOT_DISCOUNTABLE]
+        if discountable:
+            score -= max(discountable)
 
     return InputVerdict(
         blocked=score >= threshold,
