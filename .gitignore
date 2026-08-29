@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
+
+# stale backups from an earlier edit; kept locally, not published
+*.bak-*
