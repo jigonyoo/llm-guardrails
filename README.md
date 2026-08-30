@@ -143,15 +143,17 @@ into one agent is a real job.
 fixed order, one call each, writing to **one shared hash-chained audit log**, so
 *"what did the agent try, and under which rule was it allowed"* is answerable from a
 single file. It ships with framework adapters (OpenAI-compatible wrapper, FastAPI
-middleware), 187 tests written against the composition rather than the five demos, and
-a benchmark you re-run **on your own corpus**, with an ablation that prices all five
-gates and labels which numbers came from your traffic and which from the shipped
-fixtures.
+middleware), 293 tests written against the composition rather than the five demos, and
+a benchmark you re-run **on your own corpus**, with an ablation that prices gates 1-5
+(input, permission, approval, reliability, output) and labels which numbers came from
+your traffic and which from the shipped fixtures.
 
 It also ships `docs/LIMITS.md`, which is the part worth reading first: the input guard
-stops **27/27 of our corpus and 6/41 of an outside reviewer's**, budgets are
-per-process, and the audit log assumes a single writer. Gates 2, 3 and 5 are where it
-earns its keep. You should know that before you pay, not after.
+stops **27/27 of our corpus and 5/42 of a corpus written to break it** — and that
+second corpus ships in the box, so the bad number is one command away rather than a
+sentence you have to take on trust. Budgets are per-process, and the audit log assumes
+a single writer. Gates 2, 3 and 5 are where it earns its keep. You should know that
+before you pay, not after.
 
 **$49.** Assembling the five yourself is a legitimate choice, and the repos above are
 the right place to start — this is the two weeks of wiring you skip.
