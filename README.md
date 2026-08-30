@@ -9,6 +9,13 @@
 > **One of five.** This repo is the input / output guard layer. If your agent needs more than
 > one of them, see [*Part of a set*](#part-of-a-set) at the bottom.
 
+> **The paid composition's evidence is readable without paying.** GuardStack (bottom of
+> this file) wires these five repos into one lifecycle; the report its own benchmark
+> generates — corpus sha256, a per-section label of *what was measured on what*, and every
+> case that went the wrong way listed by name — is published as a file:
+> **[evidence report](https://claude.ai/code/artifact/b9435c65-2173-4e40-90d7-54eb67a080fa)**. This repo is gates 1 and 5 in it (27/27
+> attacks blocked, 10/10 leaking outputs redacted, on its corpus and not yours).
+
 ---
 
 ## The problem (OWASP LLM Top-10, the two that bite first)
