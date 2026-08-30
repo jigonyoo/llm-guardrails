@@ -143,10 +143,14 @@ into one agent is a real job.
 fixed order, one call each, writing to **one shared hash-chained audit log**, so
 *"what did the agent try, and under which rule was it allowed"* is answerable from a
 single file. It ships with framework adapters (OpenAI-compatible wrapper, FastAPI
-middleware), 293 tests written against the composition rather than the five demos, and
-a benchmark you re-run **on your own corpus**, with an ablation that prices gates 1-5
-(input, permission, approval, reliability, output) and labels which numbers came from
-your traffic and which from the shipped fixtures.
+middleware), a test suite written against the composition rather than the five demos,
+and a benchmark you re-run **on your own corpus**, with an ablation that prices gates
+1-5 (input, permission, approval, reliability, output) and labels which numbers came
+from your traffic and which from the shipped fixtures. The current test count and every
+other figure live in the [evidence report](https://claude.ai/code/artifact/b9435c65-2173-4e40-90d7-54eb67a080fa),
+which is regenerated from the benchmark — this file deliberately does not repeat them,
+because a version-dependent number copied into five repos is a number that goes stale in
+five places at once. It did, twice.
 
 It also ships `docs/LIMITS.md`, which is the part worth reading first: the input guard
 stops **27/27 of our corpus and 5/42 of a corpus written to break it** — and that
