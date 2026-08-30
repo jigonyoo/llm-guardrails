@@ -14,7 +14,9 @@
 > generates — corpus sha256, a per-section label of *what was measured on what*, and every
 > case that went the wrong way listed by name — is published as a file:
 > **[evidence report](https://claude.ai/code/artifact/b9435c65-2173-4e40-90d7-54eb67a080fa)**. This repo is gates 1 and 5 in it (27/27
-> attacks blocked, 10/10 leaking outputs redacted, on its corpus and not yours).
+> attacks blocked, 10/10 leaking outputs redacted) — on *GuardStack's* corpus, which is a
+> different set from the 26 measured below, and not yours. The number worth more of your
+> attention is further down this file: [**5 of 42**](#the-number-that-makes-this-honest-5-of-42).
 
 ---
 
@@ -235,11 +237,11 @@ because a version-dependent number copied into five repos is a number that goes 
 five places at once. It did, twice.
 
 It also ships `docs/LIMITS.md`, which is the part worth reading first: the input guard
-stops **27/27 of our corpus and 5/42 of a corpus written to break it** — and that
-second corpus ships in the box, so the bad number is one command away rather than a
-sentence you have to take on trust. Budgets are per-process, and the audit log assumes
-a single writer. Gates 2, 3 and 5 are where it earns its keep. You should know that
-before you pay, not after.
+stops **27/27 of GuardStack's own corpus and 5/42 of the corpus written to break it**.
+That second corpus is not behind the purchase — it is in *this* repo, MIT, and
+`python scripts/adversarial.py` prints the bad number in fifteen seconds. Check it
+before you consider paying, not after. Budgets are per-process, and the audit log
+assumes a single writer. Gates 2, 3 and 5 are where it earns its keep.
 
 **$49.** Assembling the five yourself is a legitimate choice, and the repos above are
 the right place to start — this is the two weeks of wiring you skip.
