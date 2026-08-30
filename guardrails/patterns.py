@@ -117,7 +117,12 @@ SECRET_PATTERNS = [
     ("jwt", re.compile(r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b"), "[REDACTED_JWT]", False),
     ("us_ssn", re.compile(r"\b(?!000|666|9\d\d)\d{3}-(?!00)\d{2}-(?!0000)\d{4}\b"), "[REDACTED_SSN]", False),
     ("email", re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"), "[REDACTED_EMAIL]", False),
-    ("credit_card", re.compile(r"\b(?:\d[ -]?){13,16}\b"), "[REDACTED_CC]", True),
+    ("credit_card", re.compile(r"\b\d(?:[ -]?\d){12,15}\b"), "[REDACTED_CC]", True),
+    # The separator repeats BETWEEN digits, not after the last one. The
+    # earlier form `(?:\d[ -]?){13,16}` let the final repetition swallow a
+    # trailing space, so "order 4532015112830366 shipped" came back as
+    # "order [REDACTED_CC]shipped" -- two words joined. Redaction is
+    # allowed to remove the secret and nothing else.
 ]
 
 
